@@ -71,28 +71,25 @@ public static WebDriver dri;
 		File des=new File(fpath);
 		FileUtils.copyFile(src, des);
 	}
-////////
 	
 	static String value;
-	public static String todatabase() throws ClassNotFoundException, SQLException {
+	public static String toDataBase(String seletTable, int sindex) throws ClassNotFoundException, SQLException {
 		
-		Class.forName("oracle.jdbc.driver.oracleDriver");
+		Class.forName("oracle.jdbc.driver.OracleDriver");
 		
-		Connection con = DriverManager.getConnection("jdbc:oracle:thin:@localhost:1512:xe", "hr", "4609");
-		String s="select*from tambram";
+		Connection con = DriverManager.getConnection("jdbc:oracle:thin:@localhost:1521:xe", "hr", "4609");
+		
+		String s= seletTable;
 		PreparedStatement p = con.prepareStatement(s);
 		ResultSet rs = p.executeQuery();
-		ResultSetMetaData metdata = rs.getMetaData();
-		int colcount = metdata.getColumnCount();
-	
+		ResultSetMetaData md = rs.getMetaData();
+		int cc = md.getColumnCount();
 		while (rs.next()) {
-			for (int i = 1; i < colcount; i++) {
-				value = rs.getString(i);
-//				System.out.println(value);
-			}
+			value = rs.getString(sindex);
 		}
 		return value;
-}
+	}
+	
 
 
 }

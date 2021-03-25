@@ -65,6 +65,10 @@ public static WebDriver dri;
 	public static void towait() {
 		dri.manage().timeouts().implicitlyWait(5, TimeUnit.SECONDS);
 	}
+	
+	public static void intoframe(int sindex) {
+		dri.switchTo().frame(sindex);
+	}
 	public static void totakescreenshort(String fpath) throws IOException {
 		TakesScreenshot tk=(TakesScreenshot)dri;
 		File src = tk.getScreenshotAs(OutputType.FILE);

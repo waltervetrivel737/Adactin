@@ -8,6 +8,8 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.ResultSetMetaData;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.concurrent.TimeUnit;
 
 import org.apache.commons.io.FileUtils;
@@ -76,22 +78,27 @@ public static WebDriver dri;
 		FileUtils.copyFile(src, des);
 	}
 	
-	static String value;
-	public static String toDataBase(String seletTable, int sindex) throws ClassNotFoundException, SQLException {
-		
+	public static String toDataBase(String seletTable, int listindex) throws ClassNotFoundException, SQLException {
+
 		Class.forName("oracle.jdbc.driver.OracleDriver");
-		
+
 		Connection con = DriverManager.getConnection("jdbc:oracle:thin:@localhost:1521:xe", "hr", "4609");
-		
-		String s= seletTable;
+
+		String s = seletTable;
 		PreparedStatement p = con.prepareStatement(s);
 		ResultSet rs = p.executeQuery();
 		ResultSetMetaData md = rs.getMetaData();
 		int cc = md.getColumnCount();
+		List<String> li = new ArrayList<String>();
 		while (rs.next()) {
-			value = rs.getString(sindex);
+			for (int i = 1; i < cc; i++) {
+				String value = rs.getString(i);
+				li.add(value);
+			}
 		}
-		return value;
+		String v1 = li.get(listindex);
+		System.out.println(v1);
+		return v1;
 	}
 	
 
